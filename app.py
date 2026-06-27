@@ -15,9 +15,11 @@ def create_app():
     # Register blueprints
     from routes.home import home_bp
     from routes.gantt import gantt_bp
+    from routes.chatbot import chatbot_bp  # ← ADD THIS
     
     app.register_blueprint(home_bp)
     app.register_blueprint(gantt_bp)
+    app.register_blueprint(chatbot_bp)  # ← ADD THIS
     
     return app
 
