@@ -14,7 +14,10 @@ def create_app():
     
     # Register blueprints
     from routes.home import home_bp
+    from routes.gantt import gantt_bp
+    
     app.register_blueprint(home_bp)
+    app.register_blueprint(gantt_bp)
     
     return app
 

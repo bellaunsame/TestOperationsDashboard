@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block title %}Gantt Chart - Test Ops Dashboard{% endblock %}
+
+{% block content %}
+<div class="gantt-page">
+    <div class="page-header">
+        <h1>📊 Test Cases Gantt Chart</h1>
+        <div class="header-actions">
+            <button id="refreshBtn" class="btn btn-secondary">🔄 Refresh</button>
+        </div>
+    </div>
+    
+    <!-- Summary cards -->
+    <div class="summary-cards">
+        <div class="summary-card">
+            <div class="summary-label">Total Tests</div>
+            <div class="summary-value" id="totalTests">-</div>
+        </div>
+        <div class="summary-card health-on-track">
+            <div class="summary-label">On Track</div>
+            <div class="summary-value" id="onTrackCount">-</div>
+        </div>
+        <div class="summary-card health-at-risk">
+            <div class="summary-label">At Risk</div>
+            <div class="summary-value" id="atRiskCount">-</div>
+        </div>
+        <div class="summary-card health-delayed">
+            <div class="summary-label">Delayed</div>
+            <div class="summary-value" id="delayedCount">-</div>
+        </div>
+        <div class="summary-card health-completed">
+            <div class="summary-label">Completed</div>
+            <div class="summary-value" id="completedCount">-</div>
+        </div>
+    </div>
+    
+    <!-- View mode toggle -->
+    <div class="view-toggle">
+        <span>View:</span>
+        <button class="view-btn active" data-mode="Day">Day</button>
+        <button class="view-btn" data-mode="Week">Week</button>
+        <button class="view-btn" data-mode="Month">Month</button>
+    </div>
+    
+    <!-- Gantt container -->
+    <div class="gantt-container">
+        <svg id="gantt"></svg>
+    </div>
+    
+    <!-- Loading state -->
+    <div id="loading" class="loading">Loading Gantt data...</div>
+    
+    <!-- Legend -->
+    <div class="legend">
+        <h3>Legend</h3>
+        <div class="legend-items">
+            <div class="legend-item"><span class="dot dot-on-track"></span> On Track</div>
+            <div class="legend-item"><span class="dot dot-ahead"></span> Ahead</div>
+            <div class="legend-item"><span class="dot dot-at-risk"></span> At Risk</div>
+            <div class="legend-item"><span class="dot dot-delayed"></span> Delayed</div>
+            <div class="legend-item"><span class="dot dot-blocked"></span> Blocked</div>
+            <div class="legend-item"><span class="dot dot-completed"></span> Completed</div>
+            <div class="legend-item"><span class="dot dot-upcoming"></span> Upcoming</div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<!-- Frappe Gantt v0.6.1 - Tested working CDN -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/frappe-gantt@0.6.1/dist/frappe-gantt.css">
+<script src="https://cdn.jsdelivr.net/npm/frappe-gantt@0.6.1/dist/frappe-gantt.min.js"></script>
+<script src="{{ url_for('static', filename='js/gantt.js') }}"></script>
+{% endblock %}
