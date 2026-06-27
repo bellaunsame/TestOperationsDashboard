@@ -3,23 +3,90 @@
 {% block title %}Home - Test Ops Dashboard{% endblock %}
 
 {% block content %}
-<div class="welcome">
-    <h1>Welcome to Test Operations Dashboard 🚀</h1>
-    <p>Your Flask app is up and running successfully!</p>
+<div class="dashboard-page">
+    <div class="page-header">
+        <h1>🏠 Dashboard Overview</h1>
+        <button id="refreshDashboard" class="btn btn-secondary">🔄 Refresh</button>
+    </div>
     
-    <div class="cards">
-        <div class="card">
-            <h3>📊 Gantt Chart</h3>
-            <p>Track test schedules and progress</p>
+    <!-- KPI Cards -->
+    <div class="kpi-grid">
+        <div class="kpi-card kpi-total">
+            <div class="kpi-icon">📋</div>
+            <div class="kpi-content">
+                <div class="kpi-label">Total Tests</div>
+                <div class="kpi-value" id="kpiTotal">-</div>
+            </div>
         </div>
-        <div class="card">
-            <h3>📧 Email Reports</h3>
-            <p>Automated daily reports</p>
+        <div class="kpi-card kpi-in-progress">
+            <div class="kpi-icon">🔄</div>
+            <div class="kpi-content">
+                <div class="kpi-label">In Progress</div>
+                <div class="kpi-value" id="kpiInProgress">-</div>
+            </div>
         </div>
-        <div class="card">
-            <h3>🤖 AI Assistant</h3>
-            <p>Get insights from your data</p>
+        <div class="kpi-card kpi-completed">
+            <div class="kpi-icon">✅</div>
+            <div class="kpi-content">
+                <div class="kpi-label">Completed</div>
+                <div class="kpi-value" id="kpiCompleted">-</div>
+            </div>
+        </div>
+        <div class="kpi-card kpi-delayed">
+            <div class="kpi-icon">⚠️</div>
+            <div class="kpi-content">
+                <div class="kpi-label">Delayed/Blocked</div>
+                <div class="kpi-value" id="kpiDelayed">-</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Progress Bar -->
+    <div class="overall-progress-card">
+        <div class="progress-header">
+            <span>Overall Progress</span>
+            <span id="avgProgressText">0%</span>
+        </div>
+        <div class="progress-bar-bg">
+            <div class="progress-bar-fill" id="avgProgressBar" style="width: 0%"></div>
+        </div>
+    </div>
+    
+    <!-- Charts Row -->
+    <div class="charts-grid">
+        <div class="chart-card">
+            <h3>📊 Status Distribution</h3>
+            <canvas id="statusChart"></canvas>
+        </div>
+        <div class="chart-card">
+            <h3>📈 Progress by Category</h3>
+            <canvas id="categoryChart"></canvas>
+        </div>
+    </div>
+    
+    <div class="chart-card full-width">
+        <h3>📉 Daily Progress Trend (Last 7 Days)</h3>
+        <canvas id="trendChart"></canvas>
+    </div>
+    
+    <!-- Alerts & Activity Row -->
+    <div class="bottom-grid">
+        <div class="info-card">
+            <h3>🔔 Alerts</h3>
+            <div id="alertsList" class="alerts-list">
+                <p class="empty-text">Loading...</p>
+            </div>
+        </div>
+        <div class="info-card">
+            <h3>📝 Recent Activity</h3>
+            <div id="activityList" class="activity-list">
+                <p class="empty-text">Loading...</p>
+            </div>
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/chart-config.js') }}"></script>
 {% endblock %}
