@@ -12,10 +12,10 @@ class TableRow:
         # Default all fields to empty string if not provided
         fields = [
             'category', 'test_method', 'test_number',
-            'proto_week', 'proto_day',
-            'dvt_week', 'dvt_day',
-            'evt_week', 'evt_day',
-            'pvt_week', 'pvt_day',
+            'proto_week', 'proto_day', 'proto_qty',
+            'dvt_week', 'dvt_day', 'dvt_qty',
+            'evt_week', 'evt_day', 'evt_qty',
+            'pvt_week', 'pvt_day', 'pvt_qty',
             'others'
         ]
         for field in fields:

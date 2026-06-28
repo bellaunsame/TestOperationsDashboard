@@ -9,10 +9,10 @@ document.addEventListener('DOMContentLoaded', () => {
   // Column field keys in DOM order (matches header columns 2-14)
   const FIELDS = [
     'category', 'test_method', 'test_number',
-    'proto_week', 'proto_day',
-    'dvt_week',   'dvt_day',
-    'evt_week',   'evt_day',
-    'pvt_week',   'pvt_day',
+    'proto_week', 'proto_day', 'proto_qty',
+    'dvt_week',   'dvt_day',   'dvt_qty',
+    'evt_week',   'evt_day',   'evt_qty',
+    'pvt_week',   'pvt_day',   'pvt_qty',
     'others'
   ];
 
@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ── Fetch all rows ─────────────────────────────────────
   async function fetchRows() {
-    excelBody.innerHTML = `<tr><td colspan="15" class="loading-cell">Loading…</td></tr>`;
+    excelBody.innerHTML = `<tr><td colspan="19" class="loading-cell">Loading…</td></tr>`;
     try {
       const res    = await fetch(`/api/tables/${TABLE_ID}/rows`);
       const result = await res.json();
@@ -28,10 +28,10 @@ document.addEventListener('DOMContentLoaded', () => {
         rows = result.data;
         renderAll();
       } else {
-        excelBody.innerHTML = `<tr><td colspan="15" class="error-cell">${result.message}</td></tr>`;
+        excelBody.innerHTML = `<tr><td colspan="19" class="error-cell">${result.message}</td></tr>`;
       }
     } catch (err) {
-      excelBody.innerHTML = `<tr><td colspan="15" class="error-cell">Failed to load rows.</td></tr>`;
+      excelBody.innerHTML = `<tr><td colspan="19" class="error-cell">Failed to load rows.</td></tr>`;
     }
   }
 
@@ -208,15 +208,19 @@ document.addEventListener('DOMContentLoaded', () => {
     
     mapped.proto_week = findVal(['protoweek', 'protodateweek', 'proto_week']);
     mapped.proto_day = findVal(['protoday', 'protodateday', 'proto_day']);
+    mapped.proto_qty = findVal(['protoqty', 'proto_qty', 'protoquantity', 'proto_quantity']);
     
     mapped.dvt_week = findVal(['dvtweek', 'dvtdateweek', 'dvt_week']);
     mapped.dvt_day = findVal(['dvtday', 'dvtdateday', 'dvt_day']);
+    mapped.dvt_qty = findVal(['dvtqty', 'dvt_qty', 'dvtquantity', 'dvt_quantity']);
     
     mapped.evt_week = findVal(['evtweek', 'evtdateweek', 'evt_week']);
     mapped.evt_day = findVal(['evtday', 'evtdateday', 'evt_day']);
+    mapped.evt_qty = findVal(['evtqty', 'evt_qty', 'evtquantity', 'evt_quantity']);
     
     mapped.pvt_week = findVal(['pvtweek', 'pvtdateweek', 'pvt_week']);
     mapped.pvt_day = findVal(['pvtday', 'pvtdateday', 'pvt_day']);
+    mapped.pvt_qty = findVal(['pvtqty', 'pvt_qty', 'pvtquantity', 'pvt_quantity']);
     
     mapped.others = findVal(['others', 'other', 'notes', 'remarks', 'remark']);
 
