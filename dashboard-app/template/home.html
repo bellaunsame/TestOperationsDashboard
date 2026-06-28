@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% block title %}Spreadsheet Editor - Test Ops Dashboard{% endblock %}
+
+{% block content %}
+<!-- Floating navigation arrows to easily switch between active projects -->
+<a href="#" id="navArrowLeft" class="nav-arrow nav-arrow-left hidden" title="Previous Project">&lsaquo;</a>
+<a href="#" id="navArrowRight" class="nav-arrow nav-arrow-right hidden" title="Next Project">&rsaquo;</a>
+
+<div class="table-view-page">
+    <div class="tv-header">
+        <div class="tv-title-row">
+            <h1 class="tv-project-title" id="currentProjectTitle">No Active Project</h1>
+            <p class="tv-description" id="currentProjectDesc">Please select or create a project table to view spreadsheet data.</p>
+        </div>
+        <div class="tv-actions">
+            <!-- Project management buttons -->
+            <button id="newProjectBtn" class="btn btn-secondary" style="margin-right: 0.5rem;">📁 New Project</button>
+            <button id="importRowsBtn" class="btn btn-secondary" style="margin-right: 0.5rem; display: none;">📥 Import Excel</button>
+            <button id="addRowBtn" class="btn btn-primary" style="display: none;">➕ Add Row</button>
+            <input type="file" id="importRowsInput" accept=".xlsx, .xls, .csv" style="display: none;">
+        </div>
+    </div>
+
+    <!-- Status saving indicator bar -->
+    <div id="saveStatus" class="save-status hidden"></div>
+
+    <!-- Empty state for no project selected -->
+    <div id="noProjectState" class="excel-empty">
+        <div class="empty-icon">📂</div>
+        <p>No project selected. Create a new one or select from the dropdown in the sidebar.</p>
+    </div>
+
+    <!-- Excel-style spreadsheet editor -->
+    <div class="excel-wrapper hidden" id="spreadsheetContainer">
+        <table class="excel-table" id="excelTable">
+            <thead>
+                <!-- Row 1: Merged Headers -->
+                <tr class="excel-header-1">
+                    <th class="col-rownum">#</th>
+                    <th class="col-category"    rowspan="2">Category</th>
+                    <th class="col-method"      rowspan="2">Test Method</th>
+                    <th class="col-number"      rowspan="2">Test Number</th>
+                    <th class="col-group-head" colspan="3">Proto</th>
+                    <th class="col-group-head" colspan="3">DVT</th>
+                    <th class="col-group-head" colspan="3">EVT</th>
+                    <th class="col-group-head" colspan="3">PVT</th>
+                    <th class="col-others"      rowspan="2">Others</th>
+                    <th class="col-actions"     rowspan="2"></th>
+                </tr>
+                <!-- Row 2: Sub-headers -->
+                <tr class="excel-header-2">
+                    <th class="col-rownum-sub"></th>
+                    <th class="col-sub">Date (Week)</th>
+                    <th class="col-sub">Date (Day)</th>
+                    <th class="col-sub col-qty">Qty</th>
+                    <th class="col-sub">Date (Week)</th>
+                    <th class="col-sub">Date (Day)</th>
+                    <th class="col-sub col-qty">Qty</th>
+                    <th class="col-sub">Date (Week)</th>
+                    <th class="col-sub">Date (Day)</th>
+                    <th class="col-sub col-qty">Qty</th>
+                    <th class="col-sub">Date (Week)</th>
+                    <th class="col-sub">Date (Day)</th>
+                    <th class="col-sub col-qty">Qty</th>
+                </tr>
+            </thead>
+            <tbody id="excelBody">
+                <!-- Javascript populates cells here -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Empty state for empty project table -->
+    <div id="emptyRowsState" class="excel-empty hidden">
+        <div class="empty-icon">📄</div>
+        <p>No test cases yet. Click <strong>➕ Add Row</strong> or <strong>📥 Import Excel</strong> to start.</p>
+    </div>
+</div>
+
+<!-- Simple Project Creation Modal -->
+<div id="projectModal" class="modal hidden">
+    <div class="modal-content">
+        <h2>Create New Project</h2>
+        <div class="form-group">
+            <label for="newProjectName">Project Name *</label>
+            <input type="text" id="newProjectName" class="form-control" placeholder="e.g. Project Apollo" required />
+        </div>
+        <div class="form-group">
+            <label for="newProjectDesc">Description</label>
+            <textarea id="newProjectDesc" class="form-control" placeholder="Project goals and brief summary..." rows="3"></textarea>
+        </div>
+        <div class="modal-actions">
+            <button id="cancelProjectBtn" class="btn btn-secondary">Cancel</button>
+            <button id="saveProjectBtn" class="btn btn-primary">Create</button>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+{% endblock %}

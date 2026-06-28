@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard Overview - Test Ops Dashboard{% endblock %}
+
+{% block content %}
+<div class="gantt-page">
+    <div class="page-header">
+        <div class="tv-title-row">
+            <h1 class="tv-project-title" id="currentDashboardTitle">No Active Project</h1>
+            <p class="tv-description">Metrics analysis and dynamic schedule timeline</p>
+        </div>
+        
+        <!-- Report generation and email dispatch buttons -->
+        <div class="header-actions" style="display: flex; gap: 0.75rem; align-items: center;">
+            <button id="pdfReportBtn" class="btn btn-secondary" style="display: none;">📄 Generate PDF Report</button>
+            <button id="emailReportBtn" class="btn btn-primary" style="display: none;">✉️ Email Report</button>
+        </div>
+    </div>
+    
+    <!-- Empty state for no project selected -->
+    <div id="dashboardNoProjectState" class="excel-empty">
+        <div class="empty-icon">📊</div>
+        <p>No project selected. Select a project from the dropdown in the sidebar to view metrics.</p>
+    </div>
+
+    <div id="dashboardDataContainer" class="hidden">
+        <!-- KPI summary metrics row -->
+        <div class="summary-cards">
+            <div class="summary-card">
+                <div class="summary-label">Total Tests</div>
+                <div class="summary-value" id="kpiTotal">-</div>
+            </div>
+            <div class="summary-card health-on-track">
+                <div class="summary-label">On Track</div>
+                <div class="summary-value" id="kpiOnTrack">-</div>
+            </div>
+            <div class="summary-card health-at-risk">
+                <div class="summary-label">Upcoming / Est</div>
+                <div class="summary-value" id="kpiUpcoming">-</div>
+            </div>
+            <div class="summary-card health-delayed">
+                <div class="summary-label">Delayed</div>
+                <div class="summary-value" id="kpiDelayed">-</div>
+            </div>
+            <div class="summary-card health-completed">
+                <div class="summary-label">Completed</div>
+                <div class="summary-value" id="kpiCompleted">-</div>
+            </div>
+        </div>
+
+        <!-- Charts grid block -->
+        <div class="charts-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+            <div class="chart-card" style="background: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); min-height: 320px;">
+                <h3 style="margin-top:0; font-size: 1rem; color: #475569;">📊 Status Distribution</h3>
+                <div style="position: relative; height: 240px; display: flex; justify-content: center; align-items: center;">
+                    <canvas id="statusChart"></canvas>
+                </div>
+            </div>
+            <div class="chart-card" style="background: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); min-height: 320px;">
+                <h3 style="margin-top:0; font-size: 1rem; color: #475569;">📈 Test Categories Profile</h3>
+                <div style="position: relative; height: 240px;">
+                    <canvas id="categoryChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gantt View-mode toggles -->
+        <div class="view-toggle">
+            <span>View Timeline:</span>
+            <button class="view-btn active" data-mode="Day">Day</button>
+            <button class="view-btn" data-mode="Week">Week</button>
+            <button class="view-btn" data-mode="Month">Month</button>
+        </div>
+
+        <!-- Frappe Gantt Container -->
+        <div class="gantt-container">
+            <svg id="gantt"></svg>
+        </div>
+        
+        <!-- Gantt Legend -->
+        <div class="legend">
+            <h3>Legend</h3>
+            <div class="legend-items">
+                <div class="legend-item"><span class="dot dot-proto"></span> Proto</div>
+                <div class="legend-item"><span class="dot dot-dvt"></span> DVT</div>
+                <div class="legend-item"><span class="dot dot-evt"></span> EVT</div>
+                <div class="legend-item"><span class="dot dot-pvt"></span> PVT</div>
+                <div class="legend-item"><span class="dot dot-planning"></span> Planning / Estimated</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Email Dialog Modal -->
+<div id="emailModal" class="modal hidden">
+    <div class="modal-content">
+        <h2>Send Dashboard Report Email</h2>
+        <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 1.5rem;">Enter the recipient's email address below to send the dynamic operations PDF summary.</p>
+        <div class="form-group">
+            <label for="recipientEmail">Recipient Email Address *</label>
+            <input type="email" id="recipientEmail" class="form-control" placeholder="e.g. manager@company.com" required />
+        </div>
+        <div class="modal-actions">
+            <button id="cancelEmailBtn" class="btn btn-secondary">Cancel</button>
+            <button id="sendEmailBtn" class="btn btn-primary">Send Email</button>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+{% endblock %}
