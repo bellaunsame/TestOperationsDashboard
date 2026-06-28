@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block title %}Tables — Test Ops Dashboard{% endblock %}
+
+{% block content %}
+<div class="tables-page">
+
+  <div class="page-header">
+    <h1>📋 Project Tables</h1>
+    <div class="header-actions">
+      <button id="importTableBtn" class="btn btn-secondary">📥 Import Table</button>
+      <button id="openCreateModalBtn" class="btn btn-primary">➕ New Table</button>
+      <input type="file" id="importTableInput" accept=".xlsx, .xls, .csv" style="display: none;">
+    </div>
+  </div>
+
+  <!-- Tabs + Search -->
+  <div class="table-controls">
+    <div class="tabs">
+      <button id="tabActive"   class="tab-btn active" data-archived="false">Active</button>
+      <button id="tabArchived" class="tab-btn"        data-archived="true">Archived</button>
+    </div>
+    <div class="search-box">
+      <input id="tableSearchInput" type="text" placeholder="Search projects…" autocomplete="off">
+      <button id="searchBtn" class="btn btn-secondary">🔍</button>
+    </div>
+  </div>
+
+  <!-- Card Grid -->
+  <div id="cardsGrid" class="project-cards-grid">
+    <div class="card-loading">Loading projects…</div>
+  </div>
+
+  <!-- Pagination -->
+  <div class="pagination-container">
+    <span id="paginationInfo" class="pagination-info">Showing 0 to 0 of 0</span>
+    <div class="pagination-buttons">
+      <button id="btnPrev" class="btn btn-secondary" disabled>◀ Prev</button>
+      <span   id="pageNumbers" class="page-numbers"></span>
+      <button id="btnNext" class="btn btn-secondary" disabled>Next ▶</button>
+    </div>
+  </div>
+
+</div><!-- /.tables-page -->
+
+<!-- ── Create / Edit Modal ── -->
+<div id="tableModal" class="modal-overlay hidden">
+  <div class="modal-content modal-sm">
+    <div class="modal-header">
+      <h3 id="modalTitle">New Project Table</h3>
+      <button id="closeModalBtn" class="modal-close">&times;</button>
+    </div>
+    <form id="tableForm">
+      <input type="hidden" id="tableIdInput">
+      <div class="form-group" style="margin-bottom:1rem">
+        <label for="projectName">Project Name <span class="required">*</span></label>
+        <input type="text" id="projectName" required placeholder="e.g. Authentication Suite">
+      </div>
+      <div class="form-group" style="margin-bottom:1.5rem">
+        <label for="description">Description</label>
+        <textarea id="description" rows="3" placeholder="Optional notes about this project…"></textarea>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="cancelModalBtn" class="btn btn-secondary">Cancel</button>
+        <button type="submit"                      class="btn btn-primary">Save</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script src="{{ url_for('static', filename='js/tables.js') }}"></script>
+{% endblock %}

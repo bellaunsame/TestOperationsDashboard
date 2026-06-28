@@ -5,8 +5,12 @@
 {% block content %}
 <div class="gantt-page">
     <div class="page-header">
-        <h1>📊 Test Cases Gantt Chart</h1>
-        <div class="header-actions">
+        <h1>📊 Project Gantt Timeline</h1>
+        <div class="header-actions" style="display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;">
+            <label for="projectSelect" style="font-weight: 600; color: #475569; margin-right: 0.25rem;">Project:</label>
+            <select id="projectSelect" class="form-control" style="min-width: 220px; padding: 0.45rem 2rem 0.45rem 0.75rem; border-radius: 8px; border: 1px solid #cbd5e1; outline: none; font-weight: 500; background: white; cursor: pointer;">
+                <option value="">Loading projects...</option>
+            </select>
             <button id="refreshBtn" class="btn btn-secondary">🔄 Refresh</button>
         </div>
     </div>
@@ -55,13 +59,11 @@
     <div class="legend">
         <h3>Legend</h3>
         <div class="legend-items">
-            <div class="legend-item"><span class="dot dot-on-track"></span> On Track</div>
-            <div class="legend-item"><span class="dot dot-ahead"></span> Ahead</div>
-            <div class="legend-item"><span class="dot dot-at-risk"></span> At Risk</div>
-            <div class="legend-item"><span class="dot dot-delayed"></span> Delayed</div>
-            <div class="legend-item"><span class="dot dot-blocked"></span> Blocked</div>
-            <div class="legend-item"><span class="dot dot-completed"></span> Completed</div>
-            <div class="legend-item"><span class="dot dot-upcoming"></span> Upcoming</div>
+            <div class="legend-item"><span class="dot dot-proto"></span> Proto</div>
+            <div class="legend-item"><span class="dot dot-dvt"></span> DVT</div>
+            <div class="legend-item"><span class="dot dot-evt"></span> EVT</div>
+            <div class="legend-item"><span class="dot dot-pvt"></span> PVT</div>
+            <div class="legend-item"><span class="dot dot-planning"></span> Planning / Empty</div>
         </div>
     </div>
 </div>

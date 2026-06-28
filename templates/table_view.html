@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block title %}{{ table.project_name }} — Test Ops Dashboard{% endblock %}
+
+{% block content %}
+  <!-- Navigation arrows to easily switch between projects -->
+  {% if prev_table_id %}
+    <a href="/tables/{{ prev_table_id }}" class="nav-arrow nav-arrow-left" title="Previous Project">&lsaquo;</a>
+  {% endif %}
+  {% if next_table_id %}
+    <a href="/tables/{{ next_table_id }}" class="nav-arrow nav-arrow-right" title="Next Project">&rsaquo;</a>
+  {% endif %}
+
+<div class="table-view-page">
+
+  <!-- Breadcrumb header -->
+  <div class="tv-header">
+    <a href="/tables" class="back-link">← Tables</a>
+    <div class="tv-title-row">
+      <h1 class="tv-project-title">{{ table.project_name }}</h1>
+      {% if table.description %}
+        <p class="tv-description">{{ table.description }}</p>
+      {% endif %}
+    </div>
+    <div class="tv-actions">
+      <button id="importRowsBtn" class="btn btn-secondary" style="margin-right: 0.5rem;">📥 Import Rows</button>
+      <button id="addRowBtn" class="btn btn-primary">➕ Add Row</button>
+      <input type="file" id="importRowsInput" accept=".xlsx, .xls, .csv" style="display: none;">
+    </div>
+  </div>
+
+  <!-- Status bar -->
+  <div id="saveStatus" class="save-status hidden"></div>
+
+  <!-- Excel-style Spreadsheet -->
+  <div class="excel-wrapper">
+    <table class="excel-table" id="excelTable">
+      <thead>
+        <!-- Row 1: group headers -->
+        <tr class="excel-header-1">
+          <th class="col-rownum">#</th>
+          <th class="col-category"    rowspan="2">Category</th>
+          <th class="col-method"      rowspan="2">Test Method</th>
+          <th class="col-number"      rowspan="2">Test Number</th>
+          <th class="col-group-head" colspan="2">Proto</th>
+          <th class="col-group-head" colspan="2">DVT</th>
+          <th class="col-group-head" colspan="2">EVT</th>
+          <th class="col-group-head" colspan="2">PVT</th>
+          <th class="col-others"      rowspan="2">Others</th>
+          <th class="col-actions"     rowspan="2"></th>
+        </tr>
+        <!-- Row 2: sub-headers -->
+        <tr class="excel-header-2">
+          <th class="col-rownum-sub"></th>
+          <th class="col-sub">Date (Week)</th>
+          <th class="col-sub">Date (Day)</th>
+          <th class="col-sub">Date (Week)</th>
+          <th class="col-sub">Date (Day)</th>
+          <th class="col-sub">Date (Week)</th>
+          <th class="col-sub">Date (Day)</th>
+          <th class="col-sub">Date (Week)</th>
+          <th class="col-sub">Date (Day)</th>
+        </tr>
+      </thead>
+      <tbody id="excelBody">
+        <tr>
+          <td colspan="15" class="loading-cell">Loading data…</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Empty state (shown when no rows) -->
+  <div id="emptyState" class="excel-empty hidden">
+    <div class="empty-icon">📄</div>
+    <p>No rows yet. Click <strong>➕ Add Row</strong> to get started.</p>
+  </div>
+
+</div>
+
+<!-- store table id for JS -->
+<script>
+  window.TABLE_ID = "{{ table.id }}";
+</script>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script src="{{ url_for('static', filename='js/table_view.js') }}"></script>
+{% endblock %}
